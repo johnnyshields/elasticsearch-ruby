@@ -44,10 +44,13 @@ module Elasticsearch
                           headers
                         end
 
+              body = body ? __convert_to_json(body) : nil
+              body, headers = compress_request(body, headers)
+
               response = connection.connection.run_request(
                 method.downcase.to_sym,
                 url,
-                (body ? __convert_to_json(body) : nil),
+                body,
                 headers
               )
 
