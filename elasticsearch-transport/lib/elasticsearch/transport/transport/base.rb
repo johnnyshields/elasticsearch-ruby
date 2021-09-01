@@ -348,7 +348,7 @@ module Elasticsearch
           end
 
           __trace(method, path, params, connection_headers(connection), body, url, response, nil, 'N/A', duration) if tracer
-          warnings(response.headers['warning']) if response.headers&.[]('warning')
+          warnings(response.headers['warning']) if response.headers&.[]('warning') && !response.headers['warning'].to_s.include?("Elasticsearch built-in security features are not enabled.")
           Response.new response.status, json || response.body, response.headers
         ensure
           @last_request_at = Time.now
