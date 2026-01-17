@@ -199,7 +199,7 @@ module Elasticsearch
         #
         def __trace(method, path, params, headers, body, url, response, json, took, duration)
           trace_url  = "http://localhost:9200/#{path}?pretty" +
-              ( params.empty? ? '' : "&#{::Faraday::Utils::ParamsHash[params].to_query}" )
+              ( params.empty? ? '' : "&#{::Faraday::Utils.build_query(params)}" )
           trace_body = body ? " -d '#{__convert_to_json(body, :pretty => true)}'" : ''
           trace_command = "curl -X #{method.to_s.upcase}"
           trace_command += " -H '#{headers.collect { |k,v| "#{k}: #{v}" }.join(", ")}'" if headers && !headers.empty?
